@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Какой сценарий крутит тебя по кругу? Пройди квиз — узнай за 2 минуты">
+  <title>Квиз Дарьи Рябовой — какой сценарий тебя держит</title>
+  <meta name="og:title" content="Какой сценарий крутит тебя по кругу? — Квиз Дарьи Рябовой">
+  <meta name="og:description" content="7 вопросов — и станет понятно, где именно застряло. Без магии и общих слов.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daryabova.github.io/quiz/">
+  <meta property="og:image" content="https://daryabova.github.io/quiz/image/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://daryabova.github.io/quiz/image/og-image.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F9F5EC;
+      --text: #2C2A22;
+      --olive: #6B7A5E;
+      --terra: #C4922A;
+      --accent: #DDD5B8;
+      --white: #FFFDF5;
+      --card-bg: #FFFDF5;
+      --service-bg: #F2EDD8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0 16px 48px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      width: 100%;
+      max-width: 680px;
+      padding: 28px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .logo span { color: var(--olive); }
+    .tg-link {
+      font-size: 13px;
+      color: var(--olive);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 1px;
+      transition: color 0.2s;
+    }
+    .tg-link:hover { color: var(--terra); }
+
+    /* ── Intro ── */
+    .intro {
+      width: 100%;
+      max-width: 620px;
+      text-align: center;
+      margin-bottom: 44px;
+    }
+    .intro-eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--olive);
+      margin-bottom: 16px;
+    }
+    .intro h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .intro p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #6b6456;
+      max-width: 480px;
+      margin: 0 auto 24px;
+    }
+    .intro-meta {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .intro-meta span {
+      font-size: 13px;
+      color: var(--olive);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .intro-meta span::before {
+      content: '✓';
+      color: var(--terra);
+      font-weight: 600;
+    }
+
+    /* ── Quiz card ── */
+    .quiz-card {
+      width: 100%;
+      max-width: 620px;
+      background: var(--card-bg);
+      border-radius: 28px;
+      padding: 44px 48px;
+      box-shadow: 0 2px 40px rgba(44,42,34,0.08);
+    }
+
+    @media (max-width: 520px) {
+      .quiz-card { padding: 32px 24px; border-radius: 20px; }
+    }
+
+    /* ── Progress ── */
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--terra);
+      border-radius: 2px;
+      transition: width 0.45s cubic-bezier(.4,0,.2,1);
+    }
+    .step-label {
+      font-size: 12px;
+      color: var(--olive);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    /* ── Question ── */
+    .question-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(19px, 3.5vw, 23px);
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    /* ── Options ── */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+
+    .option-btn {
+      background: #F6F1DE;
+      border: 1.5px solid var(--accent);
+      border-radius: 16px;
+      padding: 15px 20px;
+      text-align: left;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14.5px;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.1s;
+      line-height: 1.55;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .option-btn:hover {
+      border-color: var(--terra);
+      background: #F8F0D8;
+    }
+    .option-btn:active { transform: scale(0.99); }
+    .option-btn.selected {
+      border-color: var(--olive);
+      background: #EAF0E4;
+    }
+
+    /* ── Nav ── */
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28px;
+    }
+    .btn-back {
+      background: none;
+      border: none;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      color: var(--olive);
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--text); }
+    .btn-next {
+      background: var(--terra);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 15px 36px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      margin-left: auto;
+    }
+    .btn-next:disabled { opacity: 0.3; cursor: default; }
+    .btn-next:not(:disabled):hover { opacity: 0.88; }
+    .btn-next:not(:disabled):active { transform: scale(0.98); }
+
+    /* ── Result ── */
+    .result-wrap { display: none; }
+    .result-wrap.visible { display: block; }
+    .question-wrap.hidden { display: none; }
+
+    .result-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--text);
+      font-size: 11px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      border-radius: 20px;
+      padding: 5px 16px;
+      margin-bottom: 20px;
+    }
+    .result-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 4vw, 27px);
+      font-weight: 400;
+      line-height: 1.35;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .result-italic {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 17px;
+      color: var(--olive);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .result-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 24px;
+      white-space: pre-line;
+    }
+    .result-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 1px;
+      margin-bottom: 24px;
+    }
+    .result-service {
+      background: #F2EDD8;
+      border: 1.5px solid var(--accent);
+      border-radius: 18px;
+      padding: 18px 22px;
+      margin-bottom: 28px;
+    }
+    .result-service-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--olive);
+      margin-bottom: 8px;
+    }
+    .result-service-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .result-service-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.65;
+    }
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn-cta {
+      background: var(--terra);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 15px 28px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .btn-cta:hover { opacity: 0.88; }
+    .btn-restart {
+      font-size: 14px;
+      color: var(--olive);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Manrope', sans-serif;
+      transition: color 0.2s;
+      text-align: center;
+      padding: 4px 0;
+    }
+    .btn-restart:hover { color: var(--text); }
+    .btn-channel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: none;
+      border: 1.5px solid var(--olive);
+      border-radius: 16px;
+      padding: 13px 22px;
+      font-family: 'Manrope', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--olive);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      text-align: center;
+    }
+    .btn-channel:hover { background: var(--olive); color: #fff; }
+    .channel-hint {
+      font-size: 12px;
+      color: #a09880;
+      text-align: center;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      width: 100%;
+      max-width: 620px;
+      margin-top: 48px;
+      text-align: center;
+      font-size: 13px;
+      color: #999;
+      line-height: 1.7;
+    }
+    .site-footer a { color: var(--olive); text-decoration: none; }
+    .site-footer a:hover { color: var(--terra); }
+
+    /* ── Telegram widget button (for Mini App) ── */
+    .tg-webapp-btn {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="https://t.me/darya_bova">Дарья <span>Рябова</span></a>
+    <a class="tg-link" href="https://t.me/darya_bova" target="_blank">@darya_bova</a>
+  </header>
+
+  <section class="intro">
+    <p class="intro-eyebrow">Бесплатный квиз</p>
+    <h1>Какой сценарий крутит тебя по кругу?</h1>
+    <p>7 вопросов — и станет понятно, где именно застряло. Без магии и общих слов.</p>
+    <div class="intro-meta">
+      <span>2 минуты</span>
+      <span>Без регистрации</span>
+      <span>Результат сразу</span>
+    </div>
+  </section>
+
+  <div class="quiz-card">
+
+    <div class="question-wrap" id="qWrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:14%"></div></div>
+      <div class="step-label" id="stepLabel">Вопрос 1 из 7</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+      <div class="nav-row">
+        <button class="btn-back" id="btnBack" onclick="goBack()" style="visibility:hidden">← Назад</button>
+        <button class="btn-next" id="btnNext" onclick="goNext()" disabled>Далее →</button>
+      </div>
+    </div>
+
+    <div class="result-wrap" id="resultWrap">
+      <div class="result-tag" id="resultTag"></div>
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-italic" id="resultItalic"></div>
+      <div class="result-text" id="resultText"></div>
+      <div class="result-divider"></div>
+      <div class="result-service">
+        <div class="result-service-label">С чего начать</div>
+        <div class="result-service-name" id="serviceName"></div>
+        <div class="result-service-desc" id="serviceDesc"></div>
+      </div>
+      <div class="result-actions">
+        <a class="btn-cta" href="https://t.me/darya_bova" target="_blank">Написать Дарье в Telegram</a>
+        <a class="btn-channel" href="https://t.me/soulenergy4757" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg>
+          Подписаться на канал
+        </a>
+        <p class="channel-hint">Там — живые истории, разборы и полезняхи</p>
+        <button class="btn-restart" onclick="restart()">Пройти заново</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <p>Дарья Рябова · Регрессолог, нумеролог метода «Код жизни»</p>
+    <p style="margin-top:6px">
+      <a href="https://t.me/darya_bova" target="_blank">Telegram</a> ·
+      <a href="mailto:daryabova317@gmail.com">daryabova317@gmail.com</a>
+    </p>
+    <p style="margin-top:10px; font-size:12px; color:#bbb">Самозанятая · ИНН 500705982342</p>
+  </footer>
+
+  <script>
+    const questions = [
+      {
+        text: "Когда что-то идёт не так, первая мысль — это:",
+        options: [
+          { text: "«Где я облажалась» — начинаю перебирать по кругу", score: { A: 2 } },
+          { text: "«Само рассосётся» — и тяну до последнего", score: { B: 2 } },
+          { text: "«Ну конечно, как всегда» — ощущение что мне везёт меньше других", score: { C: 2 } },
+          { text: "«Надо ещё разобраться в себе» — ухожу в анализ", score: { D: 2 } }
+        ]
+      },
+      {
+        text: "В отношениях ты чаще всего:",
+        options: [
+          { text: "Молчишь, когда внутри всё орёт — лишь бы не расстраивать", score: { A: 2 } },
+          { text: "Держишь дистанцию — когда слишком близко, становится не по себе", score: { B: 2 } },
+          { text: "Отдаёшь больше, чем получаешь — и злишься на себя за это", score: { C: 2 } },
+          { text: "Много думаешь об отношениях, но шагов почти не делаешь", score: { D: 2 } }
+        ]
+      },
+      {
+        text: "Перед важным решением ты:",
+        options: [
+          { text: "Идёшь спрашивать других — одобрение важно, даже если не признаёшь", score: { A: 2 } },
+          { text: "Откладываешь — «ещё не время», и так по кругу", score: { B: 2 } },
+          { text: "Решаешь — но потом оказывается, что снова не для себя", score: { C: 2 } },
+          { text: "Уходишь изучать тему вместо того, чтобы просто сделать шаг", score: { D: 2 } }
+        ]
+      },
+      {
+        text: "Тревога чаще всего накрывает, когда:",
+        options: [
+          { text: "Кажется, что кто-то недоволен тобой — даже если ничего не сказал", score: { A: 2 } },
+          { text: "Нужно выйти из привычного — новое пугает больше, чем признаёшься", score: { B: 2 } },
+          { text: "Твои усилия снова не заметили — или оценили не так", score: { C: 2 } },
+          { text: "Просто так — фоном, без конкретной причины", score: { D: 2 } }
+        ]
+      },
+      {
+        text: "Какая фраза бьёт прямо в точку?",
+        options: [
+          { text: "«Я боюсь подвести — и поэтому почти никогда не выбираю себя»", score: { A: 3 } },
+          { text: "«Я боюсь расслабиться — кажется, держусь из последних сил»", score: { B: 3 } },
+          { text: "«Почему мне всегда приходится тащить всё самой»", score: { C: 3 } },
+          { text: "«Я не понимаю чего хочу — и это бесит больше всего»", score: { D: 3 } }
+        ]
+      },
+      {
+        text: "Если честно — что больше всего тормозит:",
+        options: [
+          { text: "Страх, что осудят или не примут, если буду собой", score: { A: 2 } },
+          { text: "Ощущение, что внутри небезопасно — и снаружи тоже", score: { B: 2 } },
+          { text: "Усталость. Много делаю, мало получаю — особенно для себя", score: { C: 2 } },
+          { text: "Ощущение тупика — хожу по кругу и выхода не вижу", score: { D: 2 } }
+        ]
+      },
+      {
+        text: "Что ты чаще всего думаешь про себя — честно?",
+        options: [
+          { text: "«Стану лучше — тогда точно заслужу»", score: { A: 3 } },
+          { text: "«Покажу слабость — и всё развалится»", score: { B: 3 } },
+          { text: "«Я отдаю всё, но будто невидима»", score: { C: 3 } },
+          { text: "«Без своих ролей я вообще не знаю кто я»", score: { D: 3 } }
+        ]
+      }
+    ];
+
+    const results = {
+      A: {
+        tag: "Сценарий «заслужить любовь»",
+        title: "Ты привыкла быть удобной. И это стоит тебе себя.",
+        italic: "«Если буду достаточно хорошей — меня наконец примут»",
+        text: "Это формируется очень рано. Ты научилась угождать, потому что так было безопаснее: меньше конфликтов, больше одобрения, никто не злится.\n\nСейчас это работает на автомате. Соглашаешься, когда внутри хочется сказать «нет». Сглаживаешь, когда внутри буря. Сначала спрашиваешь, что нужно другим — и только если осталось время и силы, вспоминаешь о себе.\n\nЗнакомо, когда после рабочего дня нет сил решить даже что съесть на ужин — потому что весь день решала за других?\n\nА внутри тем временем растёт усталость и тихое ощущение, что любят не тебя, а ту удобную версию, которую ты показываешь.\n\nЭто не потому что ты слабая или зависимая от чужого мнения. Когда-то это правило сработало и спасло. Просто сейчас оно работает против тебя — и пора посмотреть, откуда оно взялось.",
+        service: "Сессия регрессивной терапии",
+        serviceDesc: "Найдём момент, когда это началось. Не чтобы обвинять — а чтобы наконец перестать жить по чужому сценарию."
+      },
+      B: {
+        tag: "Сценарий «я не в безопасности»",
+        title: "Ты всё контролируешь. Потому что когда-то не смогла.",
+        italic: "«Если расслаблюсь — всё рухнет»",
+        text: "Контроль — это не характер. Это защита, которая включилась в момент, когда стало по-настоящему страшно, а держаться было не на что — только на саму себя.\n\nСейчас это выглядит как привычка планировать на три шага вперёд, перепроверять, держать всё под наблюдением. Даже отдых ощущается как риск — будто стоит перестать следить, и что-то обязательно пойдёт не так.\n\nТело при этом живёт в режиме «наготове»: зажатые плечи, поверхностное дыхание, тревожный сон — даже когда формально всё в порядке.\n\nСамое неприятное — со стороны это выглядит как сила. «Она такая собранная, всё успевает». А внутри постоянное напряжение, которое не отпускает даже в отпуске.\n\nЭто не про характер. Это про то, что когда-то безопасность пришлось добывать самой — и тело до сих пор работает в этом режиме, даже когда угрозы давно нет.",
+        service: "Разбор даты рождения",
+        serviceDesc: "Покажу, где в твоей матрице зашита эта программа — и как её перевести из вечного напряжения в ресурс."
+      },
+      C: {
+        tag: "Сценарий «я невидима»",
+        title: "Ты отдаёшь всё. Но будто тебя никто не замечает.",
+        italic: "«Почему другим — можно, а мне — нет»",
+        text: "Ты — тот человек, к которому идут за помощью. Который помнит дни рождения, подстраивается под чужое расписание, тащит на себе быт, отношения, иногда даже чужие эмоции.\n\nИ вроде это естественно — ты же справляешься. Но в какой-то момент начинает зудеть вопрос: а кто помнит про меня? Кто спрашивает, как я?\n\nЧасто рядом — раздражение, которое стыдно показать («я сама так решила», «никто не просил»), и чувство вины, если вдруг хочется отказать или попросить о помощи самой.\n\nКорень обычно в убеждении, что любовь и место в жизни других нужно заслужить через пользу. Если перестать быть нужной — перестанут замечать вообще.\n\nЭто не лечится решением «теперь буду думать о себе». Потому что решение принимает голова, а сценарий живёт глубже — в теле, в привычных реакциях, в том самом моменте, когда это правило впервые закрепилось.",
+        service: "Сессия регрессивной терапии",
+        serviceDesc: "Найдём корень и поработаем с ним вживую. После сессии многие впервые чувствуют: можно и для себя тоже."
+      },
+      D: {
+        tag: "Сценарий «кто я без ролей»",
+        title: "Ты много думаешь о себе. Но не слышишь себя.",
+        italic: "«Хочу понять — кто я, чего хочу, куда иду»",
+        text: "Ты не из тех, кто сидит сложа руки. Книги, курсы, психологи, медитации — пробовала многое. И каждый раз становится немного легче... а потом снова накатывает то же ощущение тупика.\n\nДело в том, что разум отлично умеет анализировать — но плохо умеет чувствовать. А ответы, которые ты ищешь, часто живут не в голове, а в теле, в детских воспоминаниях, в том, что давно не пересматривалось.\n\nСо стороны может казаться, что всё неплохо: работа, отношения, обязанности выполняются. Но внутри — будто живёшь чужую жизнь по чужому сценарию, и никак не находишь, где твоя собственная.\n\nПостоянный вопрос «кто я» и «чего я хочу» — это не слабость и не инфантильность. Это сигнал, что пора перестать додумывать и начать проживать.",
+        service: "Разбор даты рождения + регресс",
+        serviceDesc: "Разбор покажет карту твоей личности — сценарии, ресурсы, блоки. Регресс поможет прожить то, что застряло."
+      }
+    };
+
+    let current = 0;
+    let answers = [];
+    let scores = { A: 0, B: 0, C: 0, D: 0 };
+
+    function renderQuestion() {
+      const q = questions[current];
+      document.getElementById('stepLabel').textContent = `Вопрос ${current + 1} из ${questions.length}`;
+      document.getElementById('questionText').textContent = q.text;
+      document.getElementById('progressFill').style.width = ((current + 1) / questions.length * 100) + '%';
+      document.getElementById('btnBack').style.visibility = current > 0 ? 'visible' : 'hidden';
+      document.getElementById('btnNext').disabled = answers[current] === undefined;
+      document.getElementById('btnNext').textContent = current === questions.length - 1 ? 'Узнать результат →' : 'Далее →';
+
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn' + (answers[current] === i ? ' selected' : '');
+        btn.textContent = opt.text;
+        btn.onclick = () => {
+          document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          answers[current] = i;
+          document.getElementById('btnNext').disabled = false;
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function goNext() {
+      if (answers[current] === undefined) return;
+      const sc = questions[current].options[answers[current]].score;
+      Object.keys(sc).forEach(k => { scores[k] += sc[k]; });
+      if (current < questions.length - 1) { current++; renderQuestion(); }
+      else showResult();
+    }
+
+    function goBack() {
+      if (current > 0) {
+        if (answers[current - 1] !== undefined) {
+          const prevScore = questions[current - 1].options[answers[current - 1]].score;
+          Object.keys(prevScore).forEach(k => { scores[k] -= prevScore[k]; });
+          answers[current - 1] = undefined;
+        }
+        current--;
+        renderQuestion();
+      }
+    }
+
+    function showResult() {
+      const top = Object.keys(scores).reduce((a, b) => scores[a] >= scores[b] ? a : b);
+      const r = results[top];
+      document.getElementById('resultTag').textContent = r.tag;
+      document.getElementById('resultTitle').textContent = r.title;
+      document.getElementById('resultItalic').textContent = r.italic;
+      document.getElementById('resultText').textContent = r.text;
+      document.getElementById('serviceName').textContent = r.service;
+      document.getElementById('serviceDesc').textContent = r.serviceDesc;
+      document.getElementById('qWrap').classList.add('hidden');
+      document.getElementById('resultWrap').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restart() {
+      current = 0; answers = []; scores = { A: 0, B: 0, C: 0, D: 0 };
+      document.getElementById('qWrap').classList.remove('hidden');
+      document.getElementById('resultWrap').classList.remove('visible');
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    renderQuestion();
+
+    // Telegram Mini App support (если открывается через бота)
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  </script>
+</body>
+</html>
